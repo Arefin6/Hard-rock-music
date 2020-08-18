@@ -1,8 +1,10 @@
+//Api base urls
 const api ={
     base:"https://api.lyrics.ovh/suggest",
 
     lyrics:"https://api.lyrics.ovh/v1"
 }
+//Search Btn
 const searchBtn = document.getElementById("searchBtn");
 searchBtn.addEventListener("click", setQuery => {
 
@@ -10,13 +12,14 @@ searchBtn.addEventListener("click", setQuery => {
 
     fetchData(searchBox);
 })
-const albumTitle = document.getElementById("title");
-const albumAuthor = document.getElementById("author");
+
+//necessary dom elements
 const mainArea = document.getElementById("single-result");
 const lyricBtn = document.getElementById("lyricBtn");
 const lyric = document.getElementById("lyric");
 const single = document.getElementById("single");
 
+//Fetching Data
 function fetchData(query){
  fetch(`${api.base}/${query}`)
 .then(res => res.json())
@@ -45,6 +48,7 @@ function fetchData(query){
 
 }
 
+//feting Lyric
 const fetchLyric = (title,author) =>{
     console.log(title,author);
     fetch(`${api.lyrics}/${author}/${title}`)
