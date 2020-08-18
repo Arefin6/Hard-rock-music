@@ -4,16 +4,18 @@ const api ={
     lyrics:"https://api.lyrics.ovh/v1"
 }
 const searchBtn = document.getElementById("searchBtn");
-searchBtn.addEventListener("click",setQuery =>{
+searchBtn.addEventListener("click", setQuery => {
 
     const searchBox = document.getElementById("search-input").value;
 
     fetchData(searchBox);
-});
+})
 const albumTitle = document.getElementById("title");
 const albumAuthor = document.getElementById("author");
 const mainArea = document.getElementById("single-result");
 const lyricBtn = document.getElementById("lyricBtn");
+const lyric = document.getElementById("lyric");
+const single = document.getElementById("single");
 
 function fetchData(query){
  fetch(`${api.base}/${query}`)
@@ -23,6 +25,7 @@ function fetchData(query){
      for(let i = 0; i < 10; i++){
 
         const title = data.data[i].title;
+       
 
         const author = data.data[i].artist.name;
 
@@ -33,37 +36,31 @@ function fetchData(query){
         </div>
         <div class="col-md-3 text-md-right text-center">
             <button class="btn btn-success" 
-            onclick="fetchLyric(${title} ${author})" id="lyricBtn">Get Lyrics</button>
+            onclick="fetchLyric('${title}','${author}')" id="lyricBtn">Get Lyrics</button>
         </div>
-    </div>`;
-
+      </div>`;
      }
 
-    // albumTitle.innerText = data.data[0].title;    
-    // albumAuthor.innerText = data.data[0].artist.name;
-    // console.log(); 
- });//.catch(e => console.log(e));
+ }).catch(e => console.log(e));
 
 }
-
-
-//    function  setParams(){ 
-//     const title = albumTitle.innerText;
-//     const author = albumAuthor.innerText;
-//      fetchLyric(title,author);
-//    }
 
 const fetchLyric = (title,author) =>{
     console.log(title,author);
     fetch(`${api.lyrics}/${author}/${title}`)
     .then(res => res.json())
     .then(data => {
-      const lyric = document.getElementById("lyric");
-      const single = document.getElementById("single");
-      lyric.innerText = data.lyrics;
-      single.style.display = "block";
-      lyric.style.display ="block";
-
+        
+        lyric.innerText = data.lyrics;
+            if(lyric.innerText === "undefined"){
+                 lyric.innerText = "Sorry Not Found! ";
+                single.style.display = "block";
+                lyric.style.display ="block";
+            } 
+            single.style.display = "block";
+            lyric.style.display ="block";
+        
+        
     });
 }
 
